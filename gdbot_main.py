@@ -2,6 +2,8 @@ import os
 import random
 import discord
 from discord.ext import commands
+from flask import Flask
+from threading import Thread
 
 TOKEN = os.getenv("TOKEN")
 
@@ -210,5 +212,19 @@ async def help_command(interaction: discord.Interaction):
         "/boss - Generate a boss idea\n"
         "/help - Show commands"
     )
+from flask import Flask
+from threading import Thread
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "GDBot is running."
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+Thread(target=run_web).start()
 
 bot.run(TOKEN)
